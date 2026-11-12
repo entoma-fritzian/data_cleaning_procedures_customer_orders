@@ -36,9 +36,9 @@ Each cleaning step follows the same pattern: look at the problem, preview the fi
 ## Dataset Status: Before and After
 You check and balance and before and after datasets 
 
-[Visit_raw_dataset](customer_orders - raw.csv)
+[Visit_raw_dataset][(customer_orders - raw.csv)](https://github.com/entoma-fritzian/data_cleaning_procedures_customer_orders/blob/main/customer_orders%20-%20raw.csv)
 
-[Visit final_clean_dataset](##clean_customer_orders_dataset.csv)
+[Visit final_clean_dataset]([##clean_customer_orders_dataset.csv)](https://github.com/entoma-fritzian/data_cleaning_procedures_customer_orders/blob/main/%23%23clean_customer_orders_dataset.csv)
 
 Snapshot of the dataset before cleaning (`orders_raw`) and after (`order_t3_final`).
 
