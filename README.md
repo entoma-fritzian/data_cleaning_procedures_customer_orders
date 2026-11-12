@@ -33,6 +33,55 @@ orders_raw  ->  order_t1_staging  ->  order_t2_deduped  ->  order_t3_final
 
 Each cleaning step follows the same pattern: look at the problem, preview the fix with a `SELECT`, then apply it with an `UPDATE`.
 
+## Dataset Status: Before and After
+You check and balance and before and after datasets 
+
+[Visit_raw_dataset]()
+
+[Visit final_clean_dataset]()
+
+Snapshot of the dataset before cleaning (`orders_raw`) and after (`order_t3_final`).
+
+### Overview
+
+| Metric | Before (`orders_raw`) | After (`order_t3_final`) |
+|--------|----------------------|--------------------------|
+| Total rows | 15 | 9 |
+| Duplicate rows removed | n/a | 6 |
+| Missing customer name | 1 | 0 |
+| Missing email | 1 | 0 |
+| Missing order date | 0 | 0 |
+| Missing price | 1 | 1 |
+
+### What changed
+
+Check the final cleaned data: 
+| Issue | Rows affected | Handling |
+|-------|---------------|----------|
+| Quantity written as a word | 1 | Converted to a number |
+| Country abbreviations mixed with full names | 7 | Standardized to one spelling |
+| Mixed date formats | 2 | Converted to `YYYY-MM-DD` |
+| Price with currency signs / inconsistent decimals | 10 | Cleaned to figures with 2 decimals |
+| Emails with `@@` or missing `.com` | 2 | Repaired |
+| Missing email | 1 | Filled from rows with the same customer name (only where that name has exactly one valid email) |
+
+*Counts are taken from the 15-row raw table, before the 6 duplicates were removed.*
+
+### Flagged values (not resolved)
+
+These values were **not estimated or guessed**. They need verification from the data owner or the original order records.
+
+| Order ID | Field | Issue | Status |
+|----------|-------|-------|--------|
+| 1014 | `price` | Missing. The same product is priced differently by region and date, so a price was not copied or averaged. | Open |
+
+### Manual fixes (dataset-specific)
+
+| Order ID | Field | Fix |
+|----------|-------|-----|
+| 1009 | `customer_name` | Missing name set to "Jessica" using the matching email |
+| 1008 | `customer_name` | Damaged "Carlos Hern..." names set to "Carlos Hernandez" |
+
 ## Requirements
 
 - MySQL **8.0+** (the script uses window functions, CTEs and `REGEXP_REPLACE`)
